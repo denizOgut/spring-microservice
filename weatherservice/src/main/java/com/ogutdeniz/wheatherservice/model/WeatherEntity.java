@@ -14,8 +14,8 @@ public class WeatherEntity {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    @Column(name = "city_name", nullable = false)
-    private String cityName;
+    @Column(name = "city", nullable = false)
+    private String city;
     private String country;
 
     private Integer temperature;
@@ -26,56 +26,69 @@ public class WeatherEntity {
 
     private LocalDateTime responseTime;
 
-    private WeatherEntity(String id, String cityName, String country, Integer temperature, double windSpeedInKph, String weatherCondition, LocalDateTime responseTime) {
+    public WeatherEntity(String id, String city, String country, Integer temperature, double windSpeedInKph, String weatherCondition) {
         this.id = id;
-        this.cityName = cityName;
+        this.city = city;
         this.country = country;
         this.temperature = temperature;
         this.windSpeedInKph = windSpeedInKph;
         this.weatherCondition = weatherCondition;
-        this.responseTime = responseTime;
+        this.responseTime = LocalDateTime.now();
     }
 
-    private WeatherEntity(String cityName, String country, Integer temperature, double windSpeedInKph, String weatherCondition, LocalDateTime responseTime) {
+    public WeatherEntity(String city, String country, Integer temperature, double windSpeedInKph, String weatherCondition) {
         this.id = "";
-        this.cityName = cityName;
+        this.city = city;
         this.country = country;
         this.temperature = temperature;
         this.windSpeedInKph = windSpeedInKph;
         this.weatherCondition = weatherCondition;
-        this.responseTime = responseTime;
+        this.responseTime = LocalDateTime.now();
     }
 
     public WeatherEntity() {
-
+        this.responseTime = LocalDateTime.now();
     }
 
 
-    private String getId() {
+    public String getId() {
         return id;
     }
 
-    private String getCityName() {
-        return cityName;
+    public String getCity() {
+        return city;
     }
 
-    private String getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    private Integer getTemperature() {
+    public Integer getTemperature() {
         return temperature;
     }
 
-    private double getWindSpeedInKph() {
+    public double getWindSpeedInKph() {
         return windSpeedInKph;
     }
 
-    private String getWeatherCondition() {
+    public String getWeatherCondition() {
         return weatherCondition;
     }
 
-    private LocalDateTime getResponseTime() {
+    public LocalDateTime getResponseTime() {
         return responseTime;
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherEntity{" +
+                "id='" + id + '\'' +
+                ", cityName='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", temperature=" + temperature +
+                ", windSpeedInKph=" + windSpeedInKph +
+                ", weatherCondition='" + weatherCondition + '\'' +
+                ", responseTime=" + responseTime +
+                '}';
     }
 }
