@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import org.springframework.http.HttpStatus;
+
 import java.util.Optional;
 
 import static com.ogutdeniz.weatherservice.constant.Constant.*;
@@ -32,43 +32,47 @@ public class WeatherService {
     }
 
     public WeatherDto getWeather(String city) {
-        Optional<WeatherEntity> weatherEntityOptional = weatherRepository.findFirstByCityOrderByResponseTimeDesc(city);
-
-        if (weatherEntityOptional.isPresent()) {
-            logger.info("Weather data for city '{}' found in the database.", city);
-            return WeatherDto.convertToWeatherDto(weatherEntityOptional.get());
-        }
-
-        logger.info("Weather data for city '{}' not found in the database. Fetching from API...", city);
-        var newWeatherEntity = getCurrentWeatherFromAPI(city).block();
-
-        if (newWeatherEntity == null) {
-            throw new WeatherDataNotFoundException("Weather data not found for city '" + city + "'.");
-        }
-
-        weatherRepository.save(newWeatherEntity);
-        logger.info("Weather data for city '{}' fetched from API and saved to the database.", city);
-        return WeatherDto.convertToWeatherDto(newWeatherEntity);
+        return weatherRepository.findFirstByCityOrderByResponseTimeDesc(city)
+                                .map(weatherEntity -> {
+                                    logger.info("Weather data for city '{}' found in the database.", city);
+                                    return WeatherDto.convertToWeatherDto(weatherEntity);
+                                })
+                                .orElseGet(() -> {
+                                    logger.info("Weather data for city '{}' not found in the database. Fetching from API...", city);
+                                    try {
+                                        WeatherEntity newWeatherEntity = getCurrentWeatherFromAPI(city).block();
+                                        weatherRepository.save(newWeatherEntity);
+                                        logger.info("Weather data for city '{}' fetched from API and saved to the database.", city);
+                                        return WeatherDto.convertToWeatherDto(newWeatherEntity);
+                                    } catch (Exception e) {
+                                        throw new WeatherDataNotFoundException("Weather data not found for city '" + city + "'.");
+                                    }
+                                });
     }
 
 
-
-
-    private Mono<WeatherEntity> getCurrentWeatherFromAPI(String cityName) {
-        String uri = getWeatherStackUri(cityName);
+    private Mono<WeatherEntity> getCurrentWeatherFromAPI(String city) {
+        String uri = getWeatherStackUri(city);
         logger.info("getCurrentWeatherFromAPI method started.");
 
         return webClient.get()
                         .uri(uri)
-                        .retrieve()
-                        .bodyToMono(String.class)
+                        .exchangeToMono(clientResponse -> {
+                            if (clientResponse.statusCode().is4xxClientError() || clientResponse.statusCode().is5xxServerError()) {
+                                return Mono.error(new WeatherDataNotFoundException("Weather data not found for city '" + city + "'."));
+                            }
+                            return clientResponse.bodyToMono(String.class);
+                        })
                         .flatMap(jsonResponse -> {
                             try {
                                 WeatherResponse weatherResponse = objectMapper.readValue(jsonResponse, WeatherResponse.class);
+                                if (weatherResponse == null || weatherResponse.location() == null || weatherResponse.current() == null) {
+                                    return Mono.error(new WeatherDataNotFoundException("Weather data not found for city '" + city + "'."));
+                                }
                                 return Mono.just(weatherResponse.convertToWeatherEntity());
                             } catch (Exception e) {
                                 logger.error("Problem occurs while parsing JSON", e);
-                                return Mono.error(new JsonParseException("Problem occurs while parsing !"));
+                                return Mono.error(new JsonParseException("Problem occurs while parsing JSON!"));
                             }
                         });
     }
