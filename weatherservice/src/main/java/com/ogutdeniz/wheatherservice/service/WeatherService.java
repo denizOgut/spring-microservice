@@ -32,7 +32,7 @@ public class WeatherService {
     }
 
     public WeatherDto getWeather(String city) {
-        boolean existsInDatabase = weatherRepository.existsByCityName(city);
+        boolean existsInDatabase = weatherRepository.existsByCity(city);
         WeatherEntity weatherEntity;
         if (!existsInDatabase) {
             logger.info("Weather data for city '{}' not found in the database. Fetching from API...", city);
@@ -41,7 +41,7 @@ public class WeatherService {
             logger.info("Weather data for city '{}' fetched from API and saved to the database.", city);
         } else {
             logger.info("Weather data for city '{}' found in the database.", city);
-            Optional<WeatherEntity> weatherEntityOptional = Optional.ofNullable(weatherRepository.findByCityName(city));
+            Optional<WeatherEntity> weatherEntityOptional = Optional.ofNullable(weatherRepository.findByCity(city));
             weatherEntity = weatherEntityOptional.orElseThrow(() ->
                     new WeatherDataNotFoundException("Weather data for city '" + city + "' not found."));
         }

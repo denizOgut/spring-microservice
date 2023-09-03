@@ -9,16 +9,16 @@ public class Constant {
     private Constant() {
     }
 
-    @Value("${weather.stack.api.base.url}")
+    @Value("${weather.open.api.base.url}")
     public static String WEATHER_OPEN_API_BASE_URL;
 
-    @Value("${weather.stack.api.access.key.param}")
+    @Value("${weather.open.api.access.key.param}")
     public static String WEATHER_OPEN_API_ACCESS_KEY_PARAM;
 
-    @Value("${weather.stack.api.query.param}")
+    @Value("${weather.open.api.query.param}")
     public static String WEATHER_OPEN_API_QUERY_PARAM;
 
-    @Value("${weather.stack.api.key}")
+    @Value("${weather.open.api.key}")
     public static String API_KEY;
 
 }

@@ -4,7 +4,7 @@ import com.ogutdeniz.wheatherservice.model.WeatherEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WeatherRepository extends JpaRepository<WeatherEntity, String> {
-    boolean existsByCityName(String cityName);
+    boolean existsByCity(String city);
 
-    WeatherEntity findByCityName(String cityName);
+    WeatherEntity findByCity(String city);
 }
