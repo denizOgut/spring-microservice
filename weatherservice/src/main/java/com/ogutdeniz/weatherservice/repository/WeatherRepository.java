@@ -3,8 +3,8 @@ package com.ogutdeniz.weatherservice.repository;
 import com.ogutdeniz.weatherservice.model.WeatherEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface WeatherRepository extends JpaRepository<WeatherEntity, String> {
-    boolean existsByCity(String city);
+import java.util.Optional;
 
-    WeatherEntity findByCity(String city);
+public interface WeatherRepository extends JpaRepository<WeatherEntity, String> {
+    Optional<WeatherEntity> findFirstByCityOrderByResponseTimeDesc(String city);
 }
