@@ -1,4 +1,4 @@
-package com.ogutdeniz.wheatherservice;
+package com.ogutdeniz.weatherservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,14 +1,14 @@
-package com.ogutdeniz.wheatherservice.dto;
+package com.ogutdeniz.weatherservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ogutdeniz.wheatherservice.model.WeatherEntity;
+import com.ogutdeniz.weatherservice.model.WeatherEntity;
 
 import java.time.LocalDateTime;
 
 
 public record WeatherDto(String city,
                          String country,
-                         Integer temperature,
+                         double temperature,
                          double windSpeedInKph,
                          String weatherCondition,
                          @JsonFormat(pattern = "dd/MM/yyyy kk:mm:ss") LocalDateTime responseTime) {

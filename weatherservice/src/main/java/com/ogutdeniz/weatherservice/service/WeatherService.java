@@ -1,11 +1,12 @@
-package com.ogutdeniz.wheatherservice.service;
+package com.ogutdeniz.weatherservice.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ogutdeniz.wheatherservice.dto.WeatherDto;
-import com.ogutdeniz.wheatherservice.exception.JsonParseException;
-import com.ogutdeniz.wheatherservice.exception.WeatherDataNotFoundException;
-import com.ogutdeniz.wheatherservice.model.WeatherEntity;
-import com.ogutdeniz.wheatherservice.repository.WeatherRepository;
+import com.ogutdeniz.weatherservice.dto.WeatherDto;
+import com.ogutdeniz.weatherservice.dto.WeatherResponse;
+import com.ogutdeniz.weatherservice.exception.JsonParseException;
+import com.ogutdeniz.weatherservice.exception.WeatherDataNotFoundException;
+import com.ogutdeniz.weatherservice.model.WeatherEntity;
+import com.ogutdeniz.weatherservice.repository.WeatherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.ogutdeniz.wheatherservice.constant.Constant.*;
+import static com.ogutdeniz.weatherservice.constant.Constant.*;
 
 @Service
 public class WeatherService {
@@ -45,12 +46,10 @@ public class WeatherService {
             weatherEntity = weatherEntityOptional.orElseThrow(() ->
                     new WeatherDataNotFoundException("Weather data for city '" + city + "' not found."));
         }
-
-
         return WeatherDto.convertToWeatherDto(weatherEntity);
     }
 
-    public Mono<WeatherEntity> getCurrentWeatherFromAPI(String cityName) {
+    private Mono<WeatherEntity> getCurrentWeatherFromAPI(String cityName) {
         String uri = getWeatherStackUri(cityName);
         logger.info("getCurrentWeatherFromAPI method started.");
 
@@ -60,7 +59,8 @@ public class WeatherService {
                         .bodyToMono(String.class)
                         .flatMap(jsonResponse -> {
                             try {
-                                WeatherEntity weatherEntity = objectMapper.readValue(jsonResponse, WeatherEntity.class);
+                                WeatherResponse weatherResponse = objectMapper.readValue(jsonResponse, WeatherResponse.class);
+                                var weatherEntity = weatherResponse.convertToWeatherEntity();
                                 return Mono.just(weatherEntity);
                             } catch (Exception e) {
                                 logger.error("Problem occurs while parsing JSON", e);

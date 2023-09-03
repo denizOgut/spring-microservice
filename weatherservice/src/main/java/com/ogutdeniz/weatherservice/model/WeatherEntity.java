@@ -1,4 +1,4 @@
-package com.ogutdeniz.wheatherservice.model;
+package com.ogutdeniz.weatherservice.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -18,7 +18,7 @@ public class WeatherEntity {
     private String city;
     private String country;
 
-    private Integer temperature;
+    private double temperature;
     @Column(name = "wind_speed_in_kph")
     private double windSpeedInKph;
     @Column(name = "weather_condition")
@@ -26,7 +26,7 @@ public class WeatherEntity {
 
     private LocalDateTime responseTime;
 
-    public WeatherEntity(String id, String city, String country, Integer temperature, double windSpeedInKph, String weatherCondition) {
+    public WeatherEntity(String id, String city, String country, double temperature, double windSpeedInKph, String weatherCondition) {
         this.id = id;
         this.city = city;
         this.country = country;
@@ -36,7 +36,7 @@ public class WeatherEntity {
         this.responseTime = LocalDateTime.now();
     }
 
-    public WeatherEntity(String city, String country, Integer temperature, double windSpeedInKph, String weatherCondition) {
+    public WeatherEntity(String city, String country, double temperature, double windSpeedInKph, String weatherCondition) {
         this.id = "";
         this.city = city;
         this.country = country;
@@ -63,7 +63,7 @@ public class WeatherEntity {
         return country;
     }
 
-    public Integer getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
@@ -77,6 +77,26 @@ public class WeatherEntity {
 
     public LocalDateTime getResponseTime() {
         return responseTime;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public void setWindSpeedInKph(double windSpeedInKph) {
+        this.windSpeedInKph = windSpeedInKph;
+    }
+
+    public void setWeatherCondition(String weatherCondition) {
+        this.weatherCondition = weatherCondition;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.ogutdeniz.wheatherservice.exception;
+package com.ogutdeniz.weatherservice.exception;
 
 
 import org.springframework.http.HttpStatus;
