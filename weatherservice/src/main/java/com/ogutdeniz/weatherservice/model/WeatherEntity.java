@@ -14,6 +14,7 @@ public class WeatherEntity {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
+
     @Column(name = "city", nullable = false)
     private String city;
     private String country;
@@ -99,16 +100,4 @@ public class WeatherEntity {
         this.weatherCondition = weatherCondition;
     }
 
-    @Override
-    public String toString() {
-        return "WeatherEntity{" +
-                "id='" + id + '\'' +
-                ", cityName='" + city + '\'' +
-                ", country='" + country + '\'' +
-                ", temperature=" + temperature +
-                ", windSpeedInKph=" + windSpeedInKph +
-                ", weatherCondition='" + weatherCondition + '\'' +
-                ", responseTime=" + responseTime +
-                '}';
-    }
 }

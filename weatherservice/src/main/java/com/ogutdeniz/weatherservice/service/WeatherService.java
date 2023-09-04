@@ -9,10 +9,14 @@ import com.ogutdeniz.weatherservice.model.WeatherEntity;
 import com.ogutdeniz.weatherservice.repository.WeatherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.ogutdeniz.weatherservice.constant.Constant.*;
@@ -31,23 +35,32 @@ public class WeatherService {
         this.webClient = webClient;
     }
 
+    @Cacheable(value = "weather", key = "#city")
     public WeatherDto getWeather(String city) {
-        return weatherRepository.findFirstByCityOrderByResponseTimeDesc(city)
-                                .map(weatherEntity -> {
-                                    logger.info("Weather data for city '{}' found in the database.", city);
-                                    return WeatherDto.convertToWeatherDto(weatherEntity);
-                                })
-                                .orElseGet(() -> {
-                                    logger.info("Weather data for city '{}' not found in the database. Fetching from API...", city);
-                                    try {
-                                        WeatherEntity newWeatherEntity = getCurrentWeatherFromAPI(city).block();
-                                        weatherRepository.save(newWeatherEntity);
-                                        logger.info("Weather data for city '{}' fetched from API and saved to the database.", city);
-                                        return WeatherDto.convertToWeatherDto(newWeatherEntity);
-                                    } catch (Exception e) {
-                                        throw new WeatherDataNotFoundException("Weather data not found for city '" + city + "'.");
-                                    }
-                                });
+        Optional<WeatherEntity> weatherEntityOptional = weatherRepository.findFirstByCityOrderByResponseTimeDesc(city);
+        WeatherEntity weatherEntity;
+        if (!weatherEntityOptional.isPresent() ||
+                hasCacheExpired(weatherEntityOptional.get().getResponseTime())) {
+
+            String logMsg = !weatherEntityOptional.isPresent() ?
+                    String.format("No weather data for city '%s' found in the database. Fetching from the external API...", city) :
+                    String.format("Weather data for city '%s' is outdated (exceeded %d hours). Fetching from the external API...", city, CACHE_TIME_LIMIT_IN_HOURS);
+
+            logger.info(logMsg);
+
+            try {
+                weatherEntity = getCurrentWeatherFromAPI(city).block();
+                weatherRepository.save(Objects.requireNonNull(weatherEntity));
+                logger.info("Weather data for city '{}' fetched from API and saved to the database.", city);
+
+            } catch (Exception e) {
+                throw new WeatherDataNotFoundException("Weather data not found for city '" + city + "'.");
+            }
+        } else {
+            weatherEntity = weatherEntityOptional.get();
+            logger.info("Weather data for city '{}' found in the database.", city);
+        }
+        return WeatherDto.convertToWeatherDto(weatherEntity);
     }
 
 
@@ -75,6 +88,11 @@ public class WeatherService {
                                 return Mono.error(new JsonParseException("Problem occurs while parsing JSON!"));
                             }
                         });
+    }
+
+    private boolean hasCacheExpired(LocalDateTime lastResponseTime) {
+        long hoursElapsedSinceLastResponse = Duration.between(lastResponseTime, LocalDateTime.now()).toHours();
+        return hoursElapsedSinceLastResponse >= CACHE_TIME_LIMIT_IN_HOURS;
     }
 
 
