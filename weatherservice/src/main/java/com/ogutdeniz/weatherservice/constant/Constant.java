@@ -15,8 +15,6 @@ public class Constant {
     public static String WEATHER_OPEN_API_QUERY_PARAM;
     public static String API_KEY;
 
-    public static int CACHE_TIME_LIMIT_IN_HOURS;
-
     @Value("${weather.open.api.base.url}")
     public void setWeatherOpenApiBaseUrl(String baseUrl) {
         WEATHER_OPEN_API_BASE_URL = baseUrl;
@@ -35,11 +33,6 @@ public class Constant {
     @Value("${weather.open.api.key}")
     public void setApiKey(String apiKey) {
         API_KEY = apiKey;
-    }
-
-    @Value("${cache.time.limit}")
-    public void setCacheTimeLimit(int cacheTimeLimit) {
-        CACHE_TIME_LIMIT_IN_HOURS = cacheTimeLimit;
     }
 
 }
