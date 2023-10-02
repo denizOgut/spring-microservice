@@ -1,22 +1,22 @@
 package com.ogutdeniz.weatherservice.dto;
 
 
-import com.ogutdeniz.weatherservice.model.WeatherEntity;
+import com.ogutdeniz.weatherservice.model.Weather;
 
 
 
 public record WeatherResponse(Location location,
                               Current current) {
-    public WeatherEntity convertToWeatherEntity() {
-        WeatherEntity weatherEntity = new WeatherEntity();
-        weatherEntity.setCity(location.name());
-        weatherEntity.setCountry(location.country());
-        weatherEntity.setTemperature(current.temp_c());
-        weatherEntity.setWindSpeedInKph(current.wind_kph());
-        weatherEntity.setWeatherCondition(current.condition().text());
+    public Weather convertToWeatherEntity() {
+        Weather weather = new Weather();
+        weather.setCity(location.name());
+        weather.setCountry(location.country());
+        weather.setTemperature(current.temp_c());
+        weather.setWindSpeedInKph(current.wind_kph());
+        weather.setWeatherCondition(current.condition().text());
 
 
-        return weatherEntity;
+        return weather;
     }
 
 

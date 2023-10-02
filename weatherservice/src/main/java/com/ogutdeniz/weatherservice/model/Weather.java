@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "weather_data")
-public class WeatherEntity {
+public class Weather {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -27,7 +27,7 @@ public class WeatherEntity {
 
     private LocalDateTime responseTime;
 
-    public WeatherEntity(String id, String city, String country, double temperature, double windSpeedInKph, String weatherCondition) {
+    public Weather(String id, String city, String country, double temperature, double windSpeedInKph, String weatherCondition) {
         this.id = id;
         this.city = city;
         this.country = country;
@@ -37,7 +37,7 @@ public class WeatherEntity {
         this.responseTime = LocalDateTime.now();
     }
 
-    public WeatherEntity(String city, String country, double temperature, double windSpeedInKph, String weatherCondition) {
+    public Weather(String city, String country, double temperature, double windSpeedInKph, String weatherCondition) {
         this.id = "";
         this.city = city;
         this.country = country;
@@ -47,7 +47,7 @@ public class WeatherEntity {
         this.responseTime = LocalDateTime.now();
     }
 
-    public WeatherEntity() {
+    public Weather() {
         this.responseTime = LocalDateTime.now();
     }
 

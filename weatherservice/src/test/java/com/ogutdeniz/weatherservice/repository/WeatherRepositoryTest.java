@@ -1,6 +1,6 @@
 package com.ogutdeniz.weatherservice.repository;
 
-import com.ogutdeniz.weatherservice.model.WeatherEntity;
+import com.ogutdeniz.weatherservice.model.Weather;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,11 +18,11 @@ class WeatherRepositoryTest {
     @Autowired
     private WeatherRepository weatherRepository;
 
-    private Optional<WeatherEntity> weatherEntity;
+    private Optional<Weather> weatherEntity;
 
     @BeforeEach
     void setUp() {
-        weatherEntity = Optional.of(new WeatherEntity("TestCity", "TestCountry", 25.5, 15.0, "Sunny"));
+        weatherEntity = Optional.of(new Weather("TestCity", "TestCountry", 25.5, 15.0, "Sunny"));
     }
 
     @Test

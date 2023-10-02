@@ -2,7 +2,7 @@ package com.ogutdeniz.weatherservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ogutdeniz.weatherservice.dto.WeatherDto;
-import com.ogutdeniz.weatherservice.model.WeatherEntity;
+import com.ogutdeniz.weatherservice.model.Weather;
 import com.ogutdeniz.weatherservice.service.WeatherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,11 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -44,7 +42,7 @@ class WeatherControllerTest {
     public void givenCity_whenGetWeather_thenReturnWeatherDto() throws Exception{
         // given - precondition or setup
         var weatherEntity = Optional.of(
-                new WeatherEntity("TestCity", "TestCountry", 25.5, 15.0, "Sunny"));
+                new Weather("TestCity", "TestCountry", 25.5, 15.0, "Sunny"));
 
         given(weatherService.getWeather(weatherEntity.get().getCity())).willReturn(WeatherDto.convertToWeatherDto(weatherEntity.get()));
 

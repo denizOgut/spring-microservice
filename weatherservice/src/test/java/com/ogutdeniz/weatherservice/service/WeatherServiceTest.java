@@ -2,11 +2,10 @@ package com.ogutdeniz.weatherservice.service;
 
 import com.ogutdeniz.weatherservice.dto.WeatherDto;
 import com.ogutdeniz.weatherservice.exception.WeatherDataNotFoundException;
-import com.ogutdeniz.weatherservice.model.WeatherEntity;
+import com.ogutdeniz.weatherservice.model.Weather;
 import com.ogutdeniz.weatherservice.repository.WeatherRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,13 +23,13 @@ class WeatherServiceTest {
     @Mock
     private WeatherRepository weatherRepository;
 
-    private Optional<WeatherEntity> weatherEntity;
+    private Optional<Weather> weatherEntity;
 
     private WeatherDto weatherDto;
 
     @BeforeEach
     void setUp() {
-        weatherEntity = Optional.of(new WeatherEntity("TestCity", "TestCountry", 25.5, 15.0, "Sunny"));
+        weatherEntity = Optional.of(new Weather("TestCity", "TestCountry", 25.5, 15.0, "Sunny"));
     }
 
 

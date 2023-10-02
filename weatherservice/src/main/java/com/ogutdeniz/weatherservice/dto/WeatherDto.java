@@ -1,7 +1,7 @@
 package com.ogutdeniz.weatherservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ogutdeniz.weatherservice.model.WeatherEntity;
+import com.ogutdeniz.weatherservice.model.Weather;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +12,7 @@ public record WeatherDto(String city,
                          double windSpeedInKph,
                          String weatherCondition,
                          @JsonFormat(pattern = "dd/MM/yyyy kk:mm:ss") LocalDateTime responseTime) {
-    public static WeatherDto convertToWeatherDto(WeatherEntity from) {
+    public static WeatherDto convertToWeatherDto(Weather from) {
         return new WeatherDto(
                 from.getCity(),
                 from.getCountry(),
@@ -21,4 +21,5 @@ public record WeatherDto(String city,
                 from.getWeatherCondition(),
                 from.getResponseTime());
     }
+
 }

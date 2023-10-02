@@ -5,7 +5,7 @@ import com.ogutdeniz.weatherservice.dto.WeatherDto;
 import com.ogutdeniz.weatherservice.dto.WeatherResponse;
 import com.ogutdeniz.weatherservice.exception.JsonParseException;
 import com.ogutdeniz.weatherservice.exception.WeatherDataNotFoundException;
-import com.ogutdeniz.weatherservice.model.WeatherEntity;
+import com.ogutdeniz.weatherservice.model.Weather;
 import com.ogutdeniz.weatherservice.repository.WeatherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class WeatherService {
     }
 
     public WeatherDto getWeather(String city) {
-        Optional<WeatherEntity> weatherEntityOptional = weatherRepository.findFirstByCityOrderByResponseTimeDesc(city);
+        Optional<Weather> weatherEntityOptional = weatherRepository.findFirstByCityOrderByResponseTimeDesc(city);
 
         if (weatherEntityOptional.isPresent()) {
             logger.info("Weather data for city '{}' found in the database.", city);
@@ -51,7 +51,7 @@ public class WeatherService {
     }
 
 
-    private Mono<WeatherEntity> getCurrentWeatherFromAPI(String city) {
+    private Mono<Weather> getCurrentWeatherFromAPI(String city) {
         String uri = getWeatherStackUri(city);
         logger.info("getCurrentWeatherFromAPI method started.");
 
