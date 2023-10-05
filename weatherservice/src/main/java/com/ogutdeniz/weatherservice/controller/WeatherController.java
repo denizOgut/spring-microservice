@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("v1/api/open-weather")
+@RequestMapping("api/v1/open-weather")
 @Tag(name = "Open Weather Service API v1", description = "Open Weather Service API to search the current weather of the city")
 public class WeatherController {
 

@@ -20,25 +20,4 @@ public class GlobalExceptionHandler {
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
-
-    @ExceptionHandler(CountryNotFoundException.class)
-    public ProblemDetail countryDataNotFoundException(CityNotFoundException exception) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, exception.getMessage());
-        problemDetail.setTitle("Country Not Found");
-        problemDetail.setType(URI.create("https://http.cat/status/404"));
-        problemDetail.setProperty("errorCategory", "Generic");
-        problemDetail.setProperty("timestamp", Instant.now());
-        return problemDetail;
-    }
-
-    @ExceptionHandler(ContinentNotFoundException.class)
-    public ProblemDetail continentDataNotFoundException(CityNotFoundException exception) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, exception.getMessage());
-        problemDetail.setTitle("Continent Not Found");
-        problemDetail.setType(URI.create("https://http.cat/status/404"));
-        problemDetail.setProperty("errorCategory", "Generic");
-        problemDetail.setProperty("timestamp", Instant.now());
-        return problemDetail;
-    }
-
 }

@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("v1/api/location-service")
+@RequestMapping("api/v1/location-service")
 public class LocationController {
 
 }
