@@ -5,6 +5,7 @@ import com.ogutdeniz.locationservice.dto.APIResponseDto;
 import com.ogutdeniz.locationservice.dto.LocationDto;
 import com.ogutdeniz.locationservice.dto.WeatherDto;
 import com.ogutdeniz.locationservice.exception.CityNotFoundException;
+import com.ogutdeniz.locationservice.model.Location;
 import com.ogutdeniz.locationservice.repository.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,6 +84,11 @@ public class LocationService {
                 .toList();
 
 
+    }
+
+    public LocationDto saveLocation(Location location) {
+        var savedLocation = locationRepository.save(location);
+        return LocationDto.converToLocationDto(savedLocation);
     }
 
 }

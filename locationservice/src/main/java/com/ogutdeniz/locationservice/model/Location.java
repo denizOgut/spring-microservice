@@ -1,6 +1,7 @@
 package com.ogutdeniz.locationservice.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "location")
@@ -8,8 +9,11 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+   @NotBlank(message = "City is mandatory")
     private String city;
-    private String country;
+    @NotBlank(message = "Country is mandatory")
+   private String country;
+    @NotBlank(message = "Continent is mandatory")
     private String continent;
 
     private double latitude;
