@@ -6,10 +6,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class LocationserviceApplication {
+public class LocationServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LocationserviceApplication.class, args);
+		SpringApplication.run(LocationServiceApplication.class, args);
 	}
 
 }
