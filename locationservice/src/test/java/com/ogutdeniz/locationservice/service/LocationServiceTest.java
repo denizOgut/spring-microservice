@@ -49,13 +49,13 @@ class LocationServiceTest {
     @Test
     public void givenCity_whenFindLocationByCity_thenReturnAPIResponseDto() {
         // given - precondition or setup
-        given(locationRepository.findLocationByCity(Mockito.anyString())).willReturn(Optional.of(location.get()));
+        given(locationRepository.findLocationByCountryAndCity(Mockito.anyString(),Mockito.anyString())).willReturn(Optional.of(location.get()));
 
         var weatherDto = new WeatherDto("Istanbul", "Turkey", 25.0, 15.0, "Sunny", LocalDateTime.now());
         given(weatherClient.getWeather(Mockito.anyString())).willReturn(weatherDto);
 
         // when - action or the behavior that we are going to test
-        var apiResponseDto = locationService.findLocationByCity("Istanbul");
+        var apiResponseDto = locationService.findLocationByCountryAndCity("Turkey","Istanbul");
 
         // then - verify the output
         assertThat(apiResponseDto).isNotNull();
@@ -64,11 +64,11 @@ class LocationServiceTest {
     @Test
     public void givenNonExistingCity_whenFindLocationByCity_thenThrowCityNotFoundException() {
         // given - precondition or setup
-        given(locationRepository.findLocationByCity("Istanbul")).willReturn(Optional.empty());
+        given(locationRepository.findLocationByCountryAndCity("Turkey","Istanbul")).willReturn(Optional.empty());
 
         // when - action or the behavior that we are going to test
         org.junit.jupiter.api.Assertions.assertThrows(CityNotFoundException.class, () -> {
-            locationService.findLocationByCity("NonExistingCity");
+            locationService.findLocationByCountryAndCity("NonExistingCountry","NonExistingCity");
         });
 
         // then - verify that the exception is thrown
