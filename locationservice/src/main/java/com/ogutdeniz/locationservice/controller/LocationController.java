@@ -54,9 +54,9 @@ public class LocationController {
                     )
             }
     )
-    @GetMapping("/{city}")
-    public ResponseEntity<APIResponseDto> findLocationByCity(@PathVariable String city) {
-        return ResponseEntity.ok(locationService.findLocationByCity(city));
+    @GetMapping("/country/{country}/city/{city}")
+    public ResponseEntity<APIResponseDto> findLocationByCountryAndCity(@PathVariable String country, @PathVariable String city) {
+        return ResponseEntity.ok(locationService.findLocationByCountryAndCity(country,city));
     }
 
     @Operation(
@@ -85,7 +85,7 @@ public class LocationController {
                     )
             }
     )
-    @GetMapping("/{longitude}/{latitude}")
+    @GetMapping("/longitude/{longitude}/latitude/{latitude}")
     public ResponseEntity<APIResponseDto> findLocationByLongitudeAndLatitude(@PathVariable Double longitude, @PathVariable Double latitude) {
         return ResponseEntity.ok(locationService.findLocationByLongitudeAndLatitude(longitude, latitude));
     }
@@ -116,7 +116,7 @@ public class LocationController {
                     )
             }
     )
-    @GetMapping("{country}")
+    @GetMapping("/country/{country}")
     public ResponseEntity<List<APIResponseDto>> findAllLocationsByCountry(@PathVariable String country) {
         return ResponseEntity.ok(locationService.findAllLocationsByCountry(country));
     }
@@ -147,7 +147,7 @@ public class LocationController {
                     )
             }
     )
-    @GetMapping("{continent}")
+    @GetMapping("/continent{continent}")
     public ResponseEntity<List<APIResponseDto>> findAllLocationsByContinent(@PathVariable String continent) {
         return ResponseEntity.ok(locationService.findAllLocationsByCountry(continent));
     }

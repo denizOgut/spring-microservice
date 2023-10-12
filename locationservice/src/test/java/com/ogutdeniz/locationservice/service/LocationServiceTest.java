@@ -51,11 +51,11 @@ class LocationServiceTest {
         // given - precondition or setup
         given(locationRepository.findLocationByCity(Mockito.anyString())).willReturn(Optional.of(location.get()));
 
-        WeatherDto weatherDto = new WeatherDto("Istanbul", "Turkey", 25.0, 15.0, "Sunny", LocalDateTime.now());
+        var weatherDto = new WeatherDto("Istanbul", "Turkey", 25.0, 15.0, "Sunny", LocalDateTime.now());
         given(weatherClient.getWeather(Mockito.anyString())).willReturn(weatherDto);
 
         // when - action or the behavior that we are going to test
-        APIResponseDto apiResponseDto = locationService.findLocationByCity("CityName");
+        var apiResponseDto = locationService.findLocationByCity("Istanbul");
 
         // then - verify the output
         assertThat(apiResponseDto).isNotNull();

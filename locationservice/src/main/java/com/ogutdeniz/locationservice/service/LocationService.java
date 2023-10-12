@@ -25,10 +25,10 @@ public class LocationService {
         this.weatherClient = weatherClient;
     }
 
-    public APIResponseDto findLocationByCity(String city) {
+    public APIResponseDto findLocationByCountryAndCity(String country, String city) {
         logger.info("findLocationByCity method started.");
-        var location = locationRepository.findLocationByCity(city).
-                                         orElseThrow(() -> new CityNotFoundException("Given city is not found " + city));
+        var location = locationRepository.findLocationByCountryAndCity(country,city).
+                                         orElseThrow(() -> new CityNotFoundException("Given city is not found " + city + " for the country " + country));
         var locationDto = LocationDto.converToLocationDto(location);
 
         var weatherDto = weatherClient.getWeather(city);
