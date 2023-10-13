@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/location-service")
+@RequestMapping("api/v1/location")
 @Tag(name = "Location Service API v1", description = "Location Service API to find location information's based on geographical data")
 public class LocationController {
 
