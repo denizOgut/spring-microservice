@@ -77,6 +77,10 @@ public class WeatherService {
                         });
     }
 
+    public  void  deleteAllWeatherData() {
+        weatherRepository.deleteAll();
+    }
+
     private String getWeatherStackUri(String city) {
         return WEATHER_OPEN_API_BASE_URL + WEATHER_OPEN_API_ACCESS_KEY_PARAM + API_KEY + WEATHER_OPEN_API_QUERY_PARAM + city;
     }

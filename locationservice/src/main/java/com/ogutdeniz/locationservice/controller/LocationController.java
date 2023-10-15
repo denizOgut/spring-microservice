@@ -30,8 +30,8 @@ public class LocationController {
 
     @Operation(
             method = "GET",
-            summary = "find the location information's based on city.",
-            description = "find the location information's based on city.",
+            summary = "find the location information's based on the country and the city.",
+            description = "find the location information's based on the country and the city.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -43,7 +43,7 @@ public class LocationController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "City name is wrong. Re-try with a valid city name",
+                            description = "City name is wrong. Re-try with a valid country name and city name",
                             content = @Content(schema = @Schema(hidden = true))
                     ),
 
