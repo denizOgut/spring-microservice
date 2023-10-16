@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ogutdeniz</groupId>
-	<artifactId>locationservice</artifactId>
+	<artifactId>location-service</artifactId>
 	<version>1.0.0</version>
 	<name>locationservice</name>
 
