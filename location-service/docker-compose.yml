@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  location-service:
+    image: 'location-service:latest'
+    depends_on:
+      - db
+    ports:
+      - "8089-8088:8088"
+    networks:
+      - location-service-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/locationservice?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+      EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE: http://eureka:8761/eureka
+
+  db:
+    image: mysql:latest
+    container_name: location-service-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: locationservice
+    networks:
+      - location-service-network
+
+networks:
+  location-service-network:
+    driver: bridge

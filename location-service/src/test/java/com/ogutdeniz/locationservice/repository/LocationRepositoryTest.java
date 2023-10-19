@@ -32,7 +32,7 @@ class LocationRepositoryTest {
         // given - precondition or setup
             locationRepository.save(location.get());
         // when -  action or the behaviour that we are going test
-        var locationFromDb = locationRepository.findLocationByCity(location.get().getCity());
+        var locationFromDb = locationRepository.findLocationByCountryAndCity(location.get().getCountry(),location.get().getCity());
         // then - verify the output
         Assertions.assertEquals(location,locationFromDb);
     }

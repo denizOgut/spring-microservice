@@ -50,8 +50,9 @@ class LocationControllerTest {
     public void givenCity_whenFindLocationByCity_thenReturnAPIResponseDto() throws Exception {
         // given - precondition or setup
         String cityName = "Istanbul";
+        String countryName = "Turkey";
         APIResponseDto apiResponseDto = new APIResponseDto(new LocationDto(cityName, "Turkey", "Asia", 41.0082, 28.9784), null);
-        given(locationService.findLocationByCity(cityName)).willReturn(apiResponseDto);
+        given(locationService.findLocationByCountryAndCity(countryName,cityName)).willReturn(apiResponseDto);
 
         // when -  action or the behaviour that we are going test
         ResultActions resultActions = mockMvc.perform(get("/api/v1/location-service/{city}", cityName)

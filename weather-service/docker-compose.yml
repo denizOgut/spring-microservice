@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  weather-service:
+    image: 'weather-service:latest'
+    depends_on:
+      - db
+    ports:
+      - "8087-8086:8086"
+
+    networks:
+      - weather-service-network
+    environment:
+      SPRING_APPLICATION_NAME: WEATHER-SERVICE
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://db:1433;databaseName=weatherservice;trustServerCertificate=true
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.SQLServerDialect
+      WEATHER_OPEN_API_BASE_URL: http://api.weatherapi.com/v1/current.json
+      WEATHER_OPEN_API_ACCESS_KEY_PARAM: ?key=
+      WEATHER_OPEN_API_QUERY_PARAM: &q=
+      WEATHER_OPEN_API_KEY: 721d976ba0a04c6fb18160543231210
+      EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: http://localhost:8761/Eureka
+
+  db:
+    image: 'microsoft/mssql-server-linux'
+    container_name: db
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: 'admin'
+    ports:
+      - "1433:1433"
+
+    networks:
+      - weather-service-network
+
+
+networks:
+  weather-service-network:
+    driver: bridge
