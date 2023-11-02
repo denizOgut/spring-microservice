@@ -5,6 +5,9 @@ services:
     image: 'location-service:latest'
     depends_on:
       - db
+    deploy:
+      mode: replicated
+      replicas: 2
     ports:
       - "8089-8088:8088"
     networks:

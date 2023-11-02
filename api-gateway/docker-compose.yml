@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+
+  api-gateway:
+    image: api-gateway
+    deploy:
+      mode: replicated
+      replicas: 2
+
+    networks:
+      - api-gateway-network
+
+    ports:
+      - "9192-9191:9191"
+    environment:
+      SPRING_APPLICATION_NAME: API-GATEWAY
+      SERVER_PORT: 9191
+      EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: http://localhost:8761/eureka
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
+      MANAGEMENT_INFO_ENV_ENABLED: true
+      MANAGEMENT_INFO_OS_ENABLED: true
+      MANAGEMENT_INFO_JAVA_ENABLED: true
+      MANAGEMENT_INFO_BUILD_ENABLED: true
+      MANAGEMENT_INFO_GIT_MODE: full
+      SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED: true
+      SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_LOWER_CASE_SERVICE_ID: true
+      LOGGING_LEVEL_ORG_SPRING_CLOUD_GATEWAY_HANDLER_ROUTEPREDICATEHANDLERMAPPING: DEBUG
+
+
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./data/prometheus/config:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    networks:
+      - api-gateway-network
+
+  grafana:
+    image: grafana/grafana-oss:8.5.2
+    pull_policy: always
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SERVER_DOMAIN=localhost
+    networks:
+      - api-gateway-network
+
+networks:
+  api-gateway-network:
+    driver: bridge
