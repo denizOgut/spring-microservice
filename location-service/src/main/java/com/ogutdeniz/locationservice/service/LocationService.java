@@ -1,7 +1,7 @@
 package com.ogutdeniz.locationservice.service;
 
 import com.ogutdeniz.locationservice.client.WeatherClient;
-import com.ogutdeniz.locationservice.dto.APIResponseDto;
+import com.ogutdeniz.locationservice.dto.LocationApiResponseDto;
 import com.ogutdeniz.locationservice.dto.LocationDto;
 import com.ogutdeniz.locationservice.dto.WeatherDto;
 import com.ogutdeniz.locationservice.exception.CityNotFoundException;
@@ -25,7 +25,7 @@ public class LocationService {
         this.weatherClient = weatherClient;
     }
 
-    public APIResponseDto findLocationByCountryAndCity(String country, String city) {
+    public LocationApiResponseDto findLocationByCountryAndCity(String country, String city) {
         logger.info("findLocationByCity method started.");
         var location = locationRepository.findLocationByCountryAndCity(country,city).
                                          orElseThrow(() -> new CityNotFoundException("Given city is not found " + city + " for the country " + country));
@@ -33,10 +33,10 @@ public class LocationService {
 
         var weatherDto = weatherClient.getWeather(city);
         logger.info("findLocationByCity method ended.");
-        return new APIResponseDto(locationDto, weatherDto);
+        return new LocationApiResponseDto(locationDto, weatherDto);
     }
 
-    public APIResponseDto findLocationByLongitudeAndLatitude(Double longitude, Double latitude) {
+    public LocationApiResponseDto findLocationByLongitudeAndLatitude(Double longitude, Double latitude) {
         logger.info("findLocationByLongitudeAndLatitude method started.");
         var location = locationRepository.findLocationByLongitudeAndLatitude(longitude, latitude).
                                          orElseThrow(() -> new CityNotFoundException("The city not found given longitude and latitude " + longitude + " " + latitude));
@@ -45,10 +45,10 @@ public class LocationService {
 
         var weatherDto = weatherClient.getWeather(locationDto.city());
         logger.info("findLocationByLongitudeAndLatitude method ended.");
-        return new APIResponseDto(locationDto, weatherDto);
+        return new LocationApiResponseDto(locationDto, weatherDto);
     }
 
-    public List<APIResponseDto> findAllLocationsByCountry(String country) {
+    public List<LocationApiResponseDto> findAllLocationsByCountry(String country) {
         logger.info("findAllLocationsByCountry method started.");
         var locationDtoList = locationRepository.findAllLocationsByCountry(country)
                                                 .stream()
@@ -60,14 +60,14 @@ public class LocationService {
                 .stream()
                 .map(locationDto -> {
                     WeatherDto weatherDto = weatherClient.getWeather(locationDto.city());
-                    return new APIResponseDto(locationDto, weatherDto);
+                    return new LocationApiResponseDto(locationDto, weatherDto);
                 })
                 .toList();
 
 
     }
 
-    public List<APIResponseDto> findAllLocationsByContinent(String continent) {
+    public List<LocationApiResponseDto> findAllLocationsByContinent(String continent) {
         logger.info("findAllLocationsByContinent method started.");
         var locationDtoList = locationRepository.findAllLocationsByContinent(continent)
                                                 .stream()
@@ -79,7 +79,7 @@ public class LocationService {
                 .stream()
                 .map(locationDto -> {
                     WeatherDto weatherDto = weatherClient.getWeather(locationDto.city());
-                    return new APIResponseDto(locationDto, weatherDto);
+                    return new LocationApiResponseDto(locationDto, weatherDto);
                 })
                 .toList();
 

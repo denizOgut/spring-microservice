@@ -1,7 +1,7 @@
 package com.ogutdeniz.locationservice.service;
 
 import com.ogutdeniz.locationservice.client.WeatherClient;
-import com.ogutdeniz.locationservice.dto.APIResponseDto;
+import com.ogutdeniz.locationservice.dto.LocationApiResponseDto;
 import com.ogutdeniz.locationservice.dto.LocationDto;
 import com.ogutdeniz.locationservice.dto.WeatherDto;
 import com.ogutdeniz.locationservice.exception.CityNotFoundException;
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
@@ -84,10 +83,10 @@ class LocationServiceTest {
         given(weatherClient.getWeather(Mockito.anyString())).willReturn(weatherDto);
 
         // when - action or the behavior that we are going to test
-        APIResponseDto apiResponseDto = locationService.findLocationByLongitudeAndLatitude(12.34, 56.78);
+        LocationApiResponseDto locationApiResponseDto = locationService.findLocationByLongitudeAndLatitude(12.34, 56.78);
 
         // then - verify the output
-        assertThat(apiResponseDto).isNotNull();;
+        assertThat(locationApiResponseDto).isNotNull();;
     }
 
     @Test
@@ -99,11 +98,11 @@ class LocationServiceTest {
         given(weatherClient.getWeather(Mockito.anyString())).willReturn(weatherDto);
 
         // when - action or the behavior that we are going to test
-        List<APIResponseDto> apiResponseDtoList = locationService.findAllLocationsByCountry("Turkey");
+        List<LocationApiResponseDto> locationApiResponseDtoList = locationService.findAllLocationsByCountry("Turkey");
 
         // then - verify the output
-        assertThat(apiResponseDtoList).isNotNull();
-        assertThat(apiResponseDtoList.size()).isEqualTo(1);
+        assertThat(locationApiResponseDtoList).isNotNull();
+        assertThat(locationApiResponseDtoList.size()).isEqualTo(1);
     }
 
     @Test
@@ -115,11 +114,11 @@ class LocationServiceTest {
         given(weatherClient.getWeather(Mockito.anyString())).willReturn(weatherDto);
 
         // when - action or the behavior that we are going to test
-        List<APIResponseDto> apiResponseDtoList = locationService.findAllLocationsByContinent("Asia");
+        List<LocationApiResponseDto> locationApiResponseDtoList = locationService.findAllLocationsByContinent("Asia");
 
         // then - verify the output
-        assertThat(apiResponseDtoList).isNotNull();
-        assertThat(apiResponseDtoList.size()).isEqualTo(1);
+        assertThat(locationApiResponseDtoList).isNotNull();
+        assertThat(locationApiResponseDtoList.size()).isEqualTo(1);
     }
 
 

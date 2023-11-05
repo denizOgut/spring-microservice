@@ -1,6 +1,7 @@
 package com.ogutdeniz.flightservice.model;
 
 import com.ogutdeniz.flightservice.constant.AirCraftModel;
+import com.ogutdeniz.flightservice.constant.AirlineCompany;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +19,7 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "flight_code")
+    @Column(name = "flight_code",unique = true)
     @NotBlank(message = "Flight Code is mandatory")
     private String flightCode;
     @Column(name = "departure_city")
@@ -35,6 +36,9 @@ public class Flight {
     private ZonedDateTime arrivalDateTime;
     @Column(name = "flight_duration")
     private Duration flightDuration;
+    @Column(name = "airline_company")
+    @Enumerated(EnumType.STRING)
+    private AirlineCompany airlineCompany;
     @Column(name = "aircraft_model")
     @Enumerated(EnumType.STRING)
     private AirCraftModel aircraftModel;
@@ -48,9 +52,10 @@ public class Flight {
     public Flight() {
     }
 
-    public Flight(long id, String flightCode, String departureCity, String arrivalCity, ZonedDateTime departureDateTime, ZonedDateTime arrivalDateTime, int reservedSeats, BigDecimal price) {
+    public Flight(long id, String flightCode,AirlineCompany airlineCompany, String departureCity, String arrivalCity, ZonedDateTime departureDateTime, ZonedDateTime arrivalDateTime, int reservedSeats, BigDecimal price) {
         this.id = id;
         this.flightCode = flightCode;
+        this.airlineCompany = airlineCompany;
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
         this.departureDateTime = departureDateTime;
@@ -67,8 +72,9 @@ public class Flight {
 
     }
 
-    public Flight(String flightCode, String departureCity, String arrivalCity, ZonedDateTime departureDateTime, ZonedDateTime arrivalDateTime, int reservedSeats, BigDecimal price) {
+    public Flight(String flightCode,AirlineCompany airlineCompany, String departureCity, String arrivalCity, ZonedDateTime departureDateTime, ZonedDateTime arrivalDateTime, int reservedSeats, BigDecimal price) {
         this.flightCode = flightCode;
+        this.airlineCompany = airlineCompany;
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
         this.departureDateTime = departureDateTime;
@@ -170,6 +176,14 @@ public class Flight {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public AirlineCompany getAirlineCompany() {
+        return airlineCompany;
+    }
+
+    public void setAirlineCompany(AirlineCompany airlineCompany) {
+        this.airlineCompany = airlineCompany;
     }
 
     private AirCraftModel getRandomAircraftModel() {

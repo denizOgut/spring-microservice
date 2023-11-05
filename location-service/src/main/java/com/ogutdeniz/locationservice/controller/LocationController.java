@@ -1,6 +1,6 @@
 package com.ogutdeniz.locationservice.controller;
 
-import com.ogutdeniz.locationservice.dto.APIResponseDto;
+import com.ogutdeniz.locationservice.dto.LocationApiResponseDto;
 import com.ogutdeniz.locationservice.dto.LocationDto;
 import com.ogutdeniz.locationservice.model.Location;
 import com.ogutdeniz.locationservice.service.LocationService;
@@ -38,7 +38,7 @@ public class LocationController {
                             description = "The location information's of the city",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = APIResponseDto.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = LocationApiResponseDto.class))
                             )
                     ),
                     @ApiResponse(
@@ -55,7 +55,7 @@ public class LocationController {
             }
     )
     @GetMapping("/country/{country}/city/{city}")
-    public ResponseEntity<APIResponseDto> findLocationByCountryAndCity(@PathVariable String country, @PathVariable String city) {
+    public ResponseEntity<LocationApiResponseDto> findLocationByCountryAndCity(@PathVariable String country, @PathVariable String city) {
         return ResponseEntity.ok(locationService.findLocationByCountryAndCity(country,city));
     }
 
@@ -69,7 +69,7 @@ public class LocationController {
                             description = "The location information's of the longitude and latitude",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = APIResponseDto.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = LocationApiResponseDto.class))
                             )
                     ),
                     @ApiResponse(
@@ -86,7 +86,7 @@ public class LocationController {
             }
     )
     @GetMapping("/longitude/{longitude}/latitude/{latitude}")
-    public ResponseEntity<APIResponseDto> findLocationByLongitudeAndLatitude(@PathVariable Double longitude, @PathVariable Double latitude) {
+    public ResponseEntity<LocationApiResponseDto> findLocationByLongitudeAndLatitude(@PathVariable Double longitude, @PathVariable Double latitude) {
         return ResponseEntity.ok(locationService.findLocationByLongitudeAndLatitude(longitude, latitude));
     }
 
@@ -100,7 +100,7 @@ public class LocationController {
                             description = "The location information's of the country",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = APIResponseDto.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = LocationApiResponseDto.class))
                             )
                     ),
                     @ApiResponse(
@@ -117,7 +117,7 @@ public class LocationController {
             }
     )
     @GetMapping("/country/{country}")
-    public ResponseEntity<List<APIResponseDto>> findAllLocationsByCountry(@PathVariable String country) {
+    public ResponseEntity<List<LocationApiResponseDto>> findAllLocationsByCountry(@PathVariable String country) {
         return ResponseEntity.ok(locationService.findAllLocationsByCountry(country));
     }
 
@@ -131,7 +131,7 @@ public class LocationController {
                             description = "The location information's of the continent",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = APIResponseDto.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = LocationApiResponseDto.class))
                             )
                     ),
                     @ApiResponse(
@@ -148,7 +148,7 @@ public class LocationController {
             }
     )
     @GetMapping("/continent{continent}")
-    public ResponseEntity<List<APIResponseDto>> findAllLocationsByContinent(@PathVariable String continent) {
+    public ResponseEntity<List<LocationApiResponseDto>> findAllLocationsByContinent(@PathVariable String continent) {
         return ResponseEntity.ok(locationService.findAllLocationsByCountry(continent));
     }
 
@@ -162,7 +162,7 @@ public class LocationController {
                             description = "The location saved into db",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    array = @ArraySchema(schema = @Schema(implementation = APIResponseDto.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = LocationApiResponseDto.class))
                             )
                     ),
                     @ApiResponse(

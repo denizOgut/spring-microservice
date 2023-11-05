@@ -1,8 +1,7 @@
 package com.ogutdeniz.locationservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ogutdeniz.locationservice.controller.LocationController;
-import com.ogutdeniz.locationservice.dto.APIResponseDto;
+import com.ogutdeniz.locationservice.dto.LocationApiResponseDto;
 import com.ogutdeniz.locationservice.dto.LocationDto;
 import com.ogutdeniz.locationservice.model.Location;
 import com.ogutdeniz.locationservice.service.LocationService;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -51,8 +49,8 @@ class LocationControllerTest {
         // given - precondition or setup
         String cityName = "Istanbul";
         String countryName = "Turkey";
-        APIResponseDto apiResponseDto = new APIResponseDto(new LocationDto(cityName, "Turkey", "Asia", 41.0082, 28.9784), null);
-        given(locationService.findLocationByCountryAndCity(countryName,cityName)).willReturn(apiResponseDto);
+        LocationApiResponseDto locationApiResponseDto = new LocationApiResponseDto(new LocationDto(cityName, "Turkey", "Asia", 41.0082, 28.9784), null);
+        given(locationService.findLocationByCountryAndCity(countryName,cityName)).willReturn(locationApiResponseDto);
 
         // when -  action or the behaviour that we are going test
         ResultActions resultActions = mockMvc.perform(get("/api/v1/location-service/{city}", cityName)
@@ -69,8 +67,8 @@ class LocationControllerTest {
         // given - precondition or setup
         Double longitude = 28.9784;
         Double latitude = 41.0082;
-        APIResponseDto apiResponseDto = new APIResponseDto(new LocationDto("Istanbul", "Turkey", "Asia", longitude, latitude), null);
-        given(locationService.findLocationByLongitudeAndLatitude(longitude, latitude)).willReturn(apiResponseDto);
+        LocationApiResponseDto locationApiResponseDto = new LocationApiResponseDto(new LocationDto("Istanbul", "Turkey", "Asia", longitude, latitude), null);
+        given(locationService.findLocationByLongitudeAndLatitude(longitude, latitude)).willReturn(locationApiResponseDto);
 
         // when -  action or the behaviour that we are going test
         ResultActions resultActions = mockMvc.perform(get("/api/v1/location-service/{longitude}/{latitude}", longitude, latitude)
@@ -87,8 +85,8 @@ class LocationControllerTest {
     public void givenCountry_whenFindAllLocationsByCountry_thenReturnListAPIResponseDto() throws Exception {
         // given - precondition or setup
         String countryName = "Turkey";
-        List<APIResponseDto> apiResponseDtoList = Collections.singletonList(new APIResponseDto(new LocationDto("Istanbul", countryName, "Asia", 41.0082, 28.9784), null));
-        given(locationService.findAllLocationsByCountry(countryName)).willReturn(apiResponseDtoList);
+        List<LocationApiResponseDto> locationApiResponseDtoList = Collections.singletonList(new LocationApiResponseDto(new LocationDto("Istanbul", countryName, "Asia", 41.0082, 28.9784), null));
+        given(locationService.findAllLocationsByCountry(countryName)).willReturn(locationApiResponseDtoList);
 
         // when -  action or the behaviour that we are going test
         ResultActions resultActions = mockMvc.perform(get("/api/v1/location-service/{country}", countryName)
@@ -104,8 +102,8 @@ class LocationControllerTest {
     public void givenContinent_whenFindAllLocationsByContinent_thenReturnListAPIResponseDto() throws Exception {
         // given - precondition or setup
         String continentName = "Asia";
-        List<APIResponseDto> apiResponseDtoList = Collections.singletonList(new APIResponseDto(new LocationDto("Istanbul", "Turkey", continentName, 41.0082, 28.9784), null));
-        given(locationService.findAllLocationsByCountry(continentName)).willReturn(apiResponseDtoList);
+        List<LocationApiResponseDto> locationApiResponseDtoList = Collections.singletonList(new LocationApiResponseDto(new LocationDto("Istanbul", "Turkey", continentName, 41.0082, 28.9784), null));
+        given(locationService.findAllLocationsByCountry(continentName)).willReturn(locationApiResponseDtoList);
 
         // when -  action or the behaviour that we are going test
         ResultActions resultActions = mockMvc.perform(get("/api/v1/location-service/{continent}", continentName)

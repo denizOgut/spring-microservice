@@ -10,6 +10,8 @@
         <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/location-service/pom.xml" />
         <option value="$PROJECT_DIR$/weather-service/pom.xml" />
+        <option value="$PROJECT_DIR$/../flight-service/pom.xml" />
+        <option value="$PROJECT_DIR$/flight-service/pom.xml" />
       </list>
     </option>
   </component>
