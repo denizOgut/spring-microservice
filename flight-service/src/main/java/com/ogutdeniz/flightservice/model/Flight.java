@@ -19,9 +19,17 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "flight_code",unique = true)
+    @Column(name = "flight_code", unique = true)
     @NotBlank(message = "Flight Code is mandatory")
     private String flightCode;
+
+    @Column(name = "departure_country")
+    @NotBlank(message = "Departure Country is mandatory")
+    private String departureCountry;
+
+    @Column(name = "arrival_country")
+    @NotBlank(message = "Arrival Country is mandatory")
+    private String arrivalCountry;
     @Column(name = "departure_city")
     @NotBlank(message = "Departure City is mandatory")
     private String departureCity;
@@ -52,10 +60,12 @@ public class Flight {
     public Flight() {
     }
 
-    public Flight(long id, String flightCode,AirlineCompany airlineCompany, String departureCity, String arrivalCity, ZonedDateTime departureDateTime, ZonedDateTime arrivalDateTime, int reservedSeats, BigDecimal price) {
+    public Flight(long id, String flightCode, AirlineCompany airlineCompany, String departureCountry, String arrivalCountry ,String departureCity, String arrivalCity, ZonedDateTime departureDateTime, ZonedDateTime arrivalDateTime, int reservedSeats, BigDecimal price) {
         this.id = id;
         this.flightCode = flightCode;
         this.airlineCompany = airlineCompany;
+        this.arrivalCountry = arrivalCountry;
+        this.departureCountry = departureCountry;
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
         this.departureDateTime = departureDateTime;
@@ -68,14 +78,16 @@ public class Flight {
         } else {
             this.availableSeats = this.aircraftModel.getTotalSeats() - this.reservedSeats;
         }
-        this.flightDuration = calculateFlightDuration(departureDateTime,arrivalDateTime);
+        this.flightDuration = calculateFlightDuration(departureDateTime, arrivalDateTime);
 
     }
 
-    public Flight(String flightCode,AirlineCompany airlineCompany, String departureCity, String arrivalCity, ZonedDateTime departureDateTime, ZonedDateTime arrivalDateTime, int reservedSeats, BigDecimal price) {
+    public Flight(String flightCode, AirlineCompany airlineCompany, String departureCountry, String arrivalCountry, String departureCity, String arrivalCity, ZonedDateTime departureDateTime, ZonedDateTime arrivalDateTime, int reservedSeats, BigDecimal price) {
         this.flightCode = flightCode;
         this.airlineCompany = airlineCompany;
         this.departureCity = departureCity;
+        this.arrivalCountry = arrivalCountry;
+        this.departureCountry = departureCountry;
         this.arrivalCity = arrivalCity;
         this.departureDateTime = departureDateTime;
         this.arrivalDateTime = arrivalDateTime;
@@ -87,7 +99,7 @@ public class Flight {
         } else {
             this.availableSeats = this.aircraftModel.getTotalSeats() - this.reservedSeats;
         }
-        this.flightDuration = calculateFlightDuration(departureDateTime,arrivalDateTime);
+        this.flightDuration = calculateFlightDuration(departureDateTime, arrivalDateTime);
     }
 
     public long getId() {
@@ -100,6 +112,22 @@ public class Flight {
 
     public String getFlightCode() {
         return flightCode;
+    }
+
+    public String getDepartureCountry() {
+        return departureCountry;
+    }
+
+    public void setDepartureCountry(String departureCountry) {
+        this.departureCountry = departureCountry;
+    }
+
+    public String getArrivalCountry() {
+        return arrivalCountry;
+    }
+
+    public void setArrivalCountry(String arrivalCountry) {
+        this.arrivalCountry = arrivalCountry;
     }
 
     public void setFlightCode(String flightCode) {

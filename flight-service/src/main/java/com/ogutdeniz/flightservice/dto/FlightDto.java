@@ -16,7 +16,10 @@ public record FlightDto(String flightCode,
 
                         AirlineCompany airlineCompany,
 
+                        String departureCountry,
                         String departureCity,
+
+                        String arrivalCountry,
                         String arrivalCity,
                         @JsonSerialize(using = CustomZonedDateTimeSerializer.class)
                         @JsonDeserialize(using = CustomZonedDateTimeDeserializer.class)
@@ -27,10 +30,12 @@ public record FlightDto(String flightCode,
                         Duration flightDuration,
                         BigDecimal price) {
 
-    public static FlightDto convertToLocationDto(Flight from) {
+    public static FlightDto convertToFlightDto(Flight from) {
         return new FlightDto(from.getFlightCode(),
                 from.getAirlineCompany(),
+                from.getDepartureCountry(),
                 from.getDepartureCity(),
+                from.getArrivalCountry(),
                 from.getArrivalCity(),
                 from.getDepartureDateTime(),
                 from.getArrivalDateTime(),

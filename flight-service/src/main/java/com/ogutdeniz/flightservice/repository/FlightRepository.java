@@ -13,5 +13,5 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 
     List<Flight> findAllFlightsByFlightDurationGreaterThanEqual(Duration duration);
 
-    List<Flight> findAllFlightsByArrivalCityAndAirlineCompany(String arrivalCity, AirlineCompany airlineCompany);
+    List<Flight> findAllFlightsByArrivalCityAndAirlineCompany(String arrivalCountry,String arrivalCity, AirlineCompany airlineCompany);
 }
