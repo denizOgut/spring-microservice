@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+
+  location-service:
+    image: 'flight-service:latest'
+    depends_on:
+      - db
+    deploy:
+      mode: replicated
+      replicas: 2
+    ports:
+      - "8084-8085:8084"
+    networks:
+      - flight-service-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/flightservice
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      EUREKA_CLIENT_SERVICE-URL_DEFAULT-ZONE: http://eureka:8761/eureka
+
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - '5432:5432'
+    networks:
+      - flight-service-network
+
+
+networks:
+  flight-service-network:
+    driver: bridge

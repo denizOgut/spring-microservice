@@ -54,8 +54,8 @@ public class FlightService {
     }
 
 
-    public List<FlightApiResponseDto> findAllFlightsByArrivalCityAndAirlineCompany(String arrivalCountry, String arrivalCity, AirlineCompany airlineCompany) {
-        var dtoList = flightRepository.findAllFlightsByArrivalCityAndAirlineCompany(arrivalCountry, arrivalCity, airlineCompany)
+    public List<FlightApiResponseDto> findAllFlightsByArrivalCountryAndArrivalCityAndAirlineCompany(String arrivalCountry, String arrivalCity, AirlineCompany airlineCompany) {
+        var dtoList = flightRepository.findAllFlightsByArrivalCountryAndArrivalCityAndAirlineCompany(arrivalCountry, arrivalCity, airlineCompany)
                                          .stream()
                                          .map(FlightDto::convertToFlightDto)
                                          .toList();
