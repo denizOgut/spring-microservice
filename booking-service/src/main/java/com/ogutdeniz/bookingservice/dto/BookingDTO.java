@@ -8,7 +8,7 @@ import com.ogutdeniz.bookingservice.model.Booking;
 import java.util.Set;
 import java.util.UUID;
 
-public record BookingDTO(String id,
+public record BookingDTO(UUID id,
                          String userId,
                          UUID bookingCode,
                          String flightClientResponse,

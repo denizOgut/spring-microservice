@@ -2,11 +2,13 @@ package com.ogutdeniz.bookingservice.model;
 
 import com.ogutdeniz.bookingservice.constant.PassengerType;
 import com.ogutdeniz.bookingservice.constant.SpecialRequest;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -15,29 +17,40 @@ import java.util.UUID;
 @Document(collection = "bookings")
 public class Booking {
     @Id
-    private String id;
+    private UUID id;
 
+    @NotEmpty(message = "User ID cannot be empty")
     private String userId;
+
+    @NotNull(message = "Booking code cannot be null")
     private UUID bookingCode;
-    private String flightClientResponse;
+
+    @NotEmpty(message = "Flight code cannot be empty")
+    private String flightCode;
+
+    @NotEmpty(message = "Passenger name cannot be empty")
     private String passengerName;
+
+    @Min(value = 1, message = "Number of passengers must be at least 1")
+    @Max(value = 9, message = "Number of passengers can't exceed 9")
     private int numberOfPassengers;
-    @Field("passengerType")
-    @Enumerated(EnumType.STRING)
+
+    @NotNull(message = "Passenger type cannot be null")
     private PassengerType passengerType;
 
-    @Field("specialRequests")
+    @NotEmpty(message = "Special requests cannot be empty")
     private Set<SpecialRequest> specialRequests;
+
     private BigDecimal price;
 
     public Booking() {
     }
 
-    public Booking(String id, String userId, UUID bookingCode, String flightClientResponse, String passengerName, int numberOfPassengers, PassengerType passengerType, Set<SpecialRequest> specialRequests, BigDecimal price) {
+    public Booking(UUID id, String userId, UUID bookingCode, String flightClientResponse, String passengerName, int numberOfPassengers, PassengerType passengerType, Set<SpecialRequest> specialRequests, BigDecimal price) {
         this.id = id;
         this.userId = userId;
         this.bookingCode = bookingCode;
-        this.flightClientResponse = flightClientResponse;
+        this.flightCode = flightClientResponse;
         this.passengerName = passengerName;
         this.numberOfPassengers = numberOfPassengers;
         this.passengerType = passengerType;
@@ -48,7 +61,7 @@ public class Booking {
     public Booking(String userId, UUID bookingCode, String flightClientResponse, String passengerName, int numberOfPassengers, PassengerType passengerType, Set<SpecialRequest> specialRequests, BigDecimal price) {
         this.userId = userId;
         this.bookingCode = bookingCode;
-        this.flightClientResponse = flightClientResponse;
+        this.flightCode = flightClientResponse;
         this.passengerName = passengerName;
         this.numberOfPassengers = numberOfPassengers;
         this.passengerType = passengerType;
@@ -56,11 +69,11 @@ public class Booking {
         this.price = price;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -80,12 +93,12 @@ public class Booking {
         this.bookingCode = bookingCode;
     }
 
-    public String getFlightClientResponse() {
-        return flightClientResponse;
+    public String getFlightCode() {
+        return flightCode;
     }
 
-    public void setFlightClientResponse(String flightClientResponse) {
-        this.flightClientResponse = flightClientResponse;
+    public void setFlightCode(String flightCode) {
+        this.flightCode = flightCode;
     }
 
     public String getPassengerName() {
