@@ -22,12 +22,12 @@ $ git clone https://github.com/denizOgut/spring-microservice.git
 
 ## TODOS
 
-* ** Spring Security **
-* ** Apache Kafka Notification Service **
-* ** Caching **
+* **Spring Security**
+* **Apache Kafka Notification Service**
+* **Caching**
 
-  ## IMPORTANT NOTE
+## IMPORTANT NOTE
 
-  * This project was a learning project for microservices architecture. I didn't focus on data consistency and business logic.
-  * API key for whaeter service most likely expired
+* This project was a learning project for microservices architecture. I didn't focus on data consistency and business logic.
+* API key for weather service most likely expired
     
